@@ -3220,7 +3220,8 @@ function ajaxFactory(method) {
         }
         var data = req.responseText ? JSON.parse(res) : {};
         if (data.message) {
-          reject(new Error(data.message));
+          //reject(new Error(data.message));
+          reject(new Error("GitHub拒绝了加载评论的请求，原因可能是由于当前尚未登录，如果你想查看评论，可以尝试点击评论框上面的登录按钮，登录Github后刷新页面。"));
         } else {
           resolve(data);
         }
