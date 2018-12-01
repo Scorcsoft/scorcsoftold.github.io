@@ -65,6 +65,7 @@
 <p>现在堆栈指针esp指向的位置是0x12FFE4。而且这4个寄存器里的值都是0，F8单步执行以上4行代码：</p>
 <p><img src="/2018/12/01/逆向工程学习-堆栈/9.jpg" alt=""></p>
 <p>eax里面的值已经变成了6，ecx里面的值已经变成了5，edx里面的值已经变成了4，ebx里面的值已经变成了3。而堆栈指针esp已经自动回退到了0x12FFF4。</p>
+<p>pop和push一样，可以pop到一个32位或者16位的寄存器或者内存，但是<font style="color:red">不能pop到一个8位的寄存器或内存</font></p>
 </div><div class="tags"></div><div class="post-nav"><a class="next" href="/2018/11/26/2-3/">2+3=?</a></div><div id="container"></div><link rel="stylesheet" href="/css/default.css?v=0.0.0"><script src="/js/gitment.browser.js?v=0.0.0"></script><script>var gitment = new Gitment({
   owner: 'Scorcsoft',
   repo: 'scorcsoft.github.io',
