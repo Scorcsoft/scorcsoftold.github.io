@@ -1,0 +1,61 @@
+<!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>标志寄存器 | 天蝎软件 | scorcsoft</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/8.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">标志寄存器</h1><a id="logo" href="/.">天蝎软件 | scorcsoft</a><p class="description"></p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Start</i></a><a href="/archives/"><i class="fa fa-archive"> Archiv</i></a><a href="/about/"><i class="fa fa-user"> Über</i></a><a href="/atom.xml"><i class="fa fa-rss"> RSS</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">标志寄存器</h1><div class="post-meta">Dec 2, 2018</div><div class="post-content"><p>标志寄存器非常重要，是需要记住的。<a id="more"></a></p>
+<h2 id="0x1标志寄存器"><a href="#0x1标志寄存器" class="headerlink" title="0x1标志寄存器"></a>0x1标志寄存器</h2><p>在od中，寄存器窗口里面有一个EFL寄存器，EFL寄存器就是标志寄存器，它里面储存的是一个数字。</p>
+<p><img src="/2018/12/02/标志寄存器/1.jpg" alt="标志寄存器"></p>
+<p>标志寄存器是一个32位的寄存器，也就是说它有32个0或者1组成，在看标志寄存器的时候就要数值转换成二进制来看。例如现在EFL储存的值是246，那么转换成二进制就是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">2: 0010</span><br><span class="line">4: 0100</span><br><span class="line">6: 0110</span><br><span class="line"></span><br><span class="line">连起来就是: 0010 0100 0110</span><br></pre></td></tr></table></figure>
+<p>EFL寄存器里面2前面全都是0，转换成二进制还是0，那么就省略了。标志寄存器储存的这8个十进制位可以拆分成32个的二进制位。这32个二进制位里就包含了很多个标志位。其实OD已经自动把常用的标志位显示出来了哈，在寄存器窗口中，EIP和EFL之间的那一段就是OD自动拆分的标志位。虽然od很方便，但是我们也要把标志寄存器和标志位弄熟悉。这个很重要。</p>
+<p>标志寄存器中各个标志位所在的位置：</p>
+<p><img src="/2018/12/02/标志寄存器/11.jpg" alt="标志位"></p>
+<h2 id="0x2-CF位"><a href="#0x2-CF位" class="headerlink" title="0x2 CF位"></a>0x2 CF位</h2><p>进位标志CF位(carry flag): 进位标志是标志寄存器中右边第<font style="color:red">1</font>位，如果运算结果的<font style="color:red">最高位</font>产生了进位或者借位，CF寄存器值为1，否则为0；</p>
+<p>现在的标志位如下图:</p>
+<p><img src="/2018/12/02/标志寄存器/2.jpg" alt=""></p>
+<p>把0xFF放入一个8位的寄存器al里面，0xFF是一个8位寄存器能够储存的最大值，那这个寄存器的值再加1，那么最高位就必定进位。汇编代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mov al,0xFF</span><br><span class="line">add al,1</span><br></pre></td></tr></table></figure>
+<p>执行这两行代码，再看标志位：</p>
+<p><img src="/2018/12/02/标志寄存器/3.jpg" alt=""></p>
+<p>CF标志位就已经变成1了。现在EFL寄存器里面的值是257，转换成二进制:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">2: 0010</span><br><span class="line">5: 0101</span><br><span class="line">7: 0111</span><br><span class="line"></span><br><span class="line">连起来就是: 0010 0101 0111</span><br></pre></td></tr></table></figure>
+<p>右边第一位是1。</p>
+<h2 id="0x3-PF位"><a href="#0x3-PF位" class="headerlink" title="0x3 PF位"></a>0x3 PF位</h2><p>奇偶标志PF位(Parity Flag): 奇偶标志是标志寄存器中右边第<font style="color:red">3</font>位，当<font style="color:red">运算结果的二进制形式中，1的个数为偶数</font>那么PF的值为1，否则为0。</p>
+<p>为了便于观察，首先把标志位重置为0，并且把0x3储存到al寄存器:</p>
+<p><img src="/2018/12/02/标志寄存器/4.jpg" alt="al为3，所有标志位为0"></p>
+<p>然后把al的值加上0x3:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">add al,0x3</span><br></pre></td></tr></table></figure>
+<p>0x3 + 0x3 = 0x6，6的二进制:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">6: 0110</span><br></pre></td></tr></table></figure>
+<p>运算结果的二进制形式是0110，0110里面”1”的个数是2，2是偶数，所以PF位的值就变成了1：</p>
+<p><img src="/2018/12/02/标志寄存器/5.jpg" alt="al为6，PE位为1"></p>
+<p>再把al的值加上0x2:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">add al,0x2</span><br></pre></td></tr></table></figure>
+<p>0x6 + 0x2 = 0x8，8的二进制:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">8: 1000</span><br></pre></td></tr></table></figure>
+<p>运算结果的二进制形式是1000，1000里面”1”的个数是1，1是奇数，所以PF位就变成了0:</p>
+<p><img src="/2018/12/02/标志寄存器/6.jpg" alt="al为8，PF位为0"></p>
+<h2 id="0x4-AF位"><a href="#0x4-AF位" class="headerlink" title="0x4 AF位"></a>0x4 AF位</h2><p>辅助进位标志AF位(Auxiliary carry Flag): 辅助进位标志是标志寄存器中右边第<font style="color:red">5</font>位，在32位的宽度中，如果运算结果的第16位产生了进位或者借位，AF位的值为1，否则为0；在16位的宽度中，如果运算结果的第8位产生了进位或者借位，AF位的值为1，否则为0；在8位的宽度中，如果运算结果的第4位产生了进位或者借位，AF位的值为1，否则为0；</p>
+<p>先来看32位的情况，首先把一个立即数0xFFF存放到32位寄存器eax里面，并且把所有的标志位重置为0，便于观察:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mov eax,0xFFF</span><br></pre></td></tr></table></figure>
+<p><img src="/2018/12/02/标志寄存器/7.jpg" alt="eax为0x00000FFF，AF位为0"></p>
+<p>现在eax里面是0x0000<font style="color:red">0</font>FFF，AF位是0。我标红的那个0就是第16位，第16位后面都是最大值F了，如果再加上1，那么必定会产生进位。给eax的值加上1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">add eax,0x1</span><br></pre></td></tr></table></figure>
+<p>执行汇编代码以后:</p>
+<p><img src="/2018/12/02/标志寄存器/8.jpg" alt="eax为0x00001000，AF位为1"></p>
+<p>F加1等于0，进一位。所以0x00000FFF + 1 = 0x00001000，第16位从之前的0变成了1，产生了进位，所以AF位的值就变成了1。</p>
+<p>16位的情况下也是同理，先把一个立即数0xBBAF放到16位寄存器ax里面，并且把所有标志位重置为0，便于观察:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mov ax,0xBBAF</span><br></pre></td></tr></table></figure>
+<p><img src="/2018/12/02/标志寄存器/9.jpg" alt="ax为0xBBAF，AF位为0"></p>
+<p>现在16位寄存器ax里面的值是0xBB<font style="color:red">A</font>F，我标红那个A就是第8位，如果运算结果中第8位产生进位或借位，AF位就会变成1。给ax加1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">add ax,1</span><br></pre></td></tr></table></figure>
+<p>执行汇编代码以后:</p>
+<p><img src="/2018/12/02/标志寄存器/10.jpg" alt="ax位0xBBB0，AF位为1"></p>
+<p>F加1等于0，进一位。F加1进了一位，那么A加1等于B，所以0xBBAF + 0x1 = 0xBBB0。在运算中，第8位的A出现了进位，所以AF位的值变成了1。</p>
+<p>在8位的情况下也是同理，就不用试了。</p>
+</div><div class="tags"></div><div class="post-nav"><a class="next" href="/2018/12/01/pushad与popad/">pushad与popad</a></div><div id="container"></div><link rel="stylesheet" href="/css/default.css?v=0.0.0"><script src="/js/gitment.browser.js?v=0.0.0"></script><script>var gitment = new Gitment({
+  owner: 'Scorcsoft',
+  repo: 'scorcsoft.github.io',
+  oauth: {
+    client_id: '2548ca2e4fc61743abea',
+    client_secret: '11dfce9cc6fad8dce061c8eb69760afa9c811b5c',
+  },
+})
+gitment.render('container')
+</script></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="https://scorcsfot.com"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Kategorien</i></div></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Letzte</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/12/02/标志寄存器/">标志寄存器</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/01/pushad与popad/">pushad与popad</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/01/逆向工程学习-堆栈/">逆向工程学习:堆栈</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/26/2-3/">2+3=?</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/11/我回来啦/">我回来啦~</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div><ul></ul><a href="https://billts.site/" title="码农BTS" target="_blank">码农BTS</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2018 <a href="/." rel="nofollow">天蝎软件 | scorcsoft.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
