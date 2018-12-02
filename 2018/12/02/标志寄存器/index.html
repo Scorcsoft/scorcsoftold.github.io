@@ -31,32 +31,37 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">8: 1000</span><br></pre></td></tr></table></figure>
 <p>运算结果的二进制形式是1000，1000里面”1”的个数是1，1是奇数，所以PF位就变成了0:</p>
 <p><img src="/2018/12/02/标志寄存器/6.jpg" alt="al为8，PF位为0"></p>
-<h2 id="0x4-AF位"><a href="#0x4-AF位" class="headerlink" title="0x4 AF位"></a>0x4 AF位</h2><p>辅助进位标志AF位(Auxiliary carry Flag): 辅助进位标志是标志寄存器中右边第<font style="color:red">5</font>位，在32位的数据宽度中，如果运算结果的第16位产生了进位或者借位，AF位的值为1，否则为0；在16位的宽度中，如果运算结果的第8位产生了进位或者借位，AF位的值为1，否则为0；在8位的宽度中，如果运算结果的第4位产生了进位或者借位，AF位的值为1，否则为0；</p>
-<p>怎样理解32位的第16位，16位的第8位这些概念，首先要看这张图，这是一个32位寄存器eax：</p>
+<h2 id="0x4-AF位"><a href="#0x4-AF位" class="headerlink" title="0x4 AF位"></a>0x4 AF位</h2><p>辅助进位标志AF位(Auxiliary carry Flag): 辅助进位标志是标志寄存器中右边第<font style="color:red">5</font>位。</p>
+<p>在32位的数据宽度中，一共有8个十六进制位，如果运算后右边第4个十六进制位产生了进位或者借位，AF位的值为1，否则为0；</p>
+<p>在16位的数据宽度中，一共有4个十六进制位，如果运算后的右边第2个十六进制位产生了进位或者借位，AF位的值为1，否则为0；</p>
+<p>怎样理解32位的宽度有8个十六进制位，16位的宽度有4个十六进制位这些概念，首先要看这张图，这是一个32位寄存器eax：</p>
 <p><img src="/2018/12/02/标志寄存器/12.jpg" alt=""></p>
 <p>32位的宽度由32个0或者1组成。</p>
 <p>每4个二进制位分成一组来表示1一个十六进制位，每个十六进制位占用4个二进制位；</p>
 <p>每2个十六进制位分成一组来表示一个byte，每个byte占用8个二进制位；</p>
 <p>每2个byte位分成一组来表示一个word，每个word占用16个二进制位；</p>
 <p>每2个word分成一组来表示一个dword，每个dword占用32个二进制位；</p>
-<p>32个二进制位可以就表示16个十六进制位。那么32位的宽度时，说的第16位实际上指的是 第16、15、14、13 这4个二进制位所表示的那个十六进制位，也就是右边第8个十六进制位。</p>
 <p>先来看32位的情况，首先把一个立即数0xFFF存放到32位寄存器eax里面，并且把所有的标志位重置为0，便于观察:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mov eax,0xFFF</span><br></pre></td></tr></table></figure>
 <p><img src="/2018/12/02/标志寄存器/7.jpg" alt="eax为0x00000FFF，AF位为0"></p>
-<p>现在eax里面是0x0000<font style="color:red">0</font>FFF，AF位是0。我标红的那个0就是第16位，第16位后面都是最大值F了，如果再加上1，那么必定会产生进位。给eax的值加上1:</p>
+<font style="color:red">说第几个十六进制位的时候，都是从右往左数的</font>
+
+
+
+<p>现在eax里面是0x0000<font style="color:red">0</font>FFF，AF位是0。我标红的那个0就是第4个十六进制位，第4个十六进制位后面都是最大值F了，如果再加上1，那么必定会产生进位。给eax的值加上1:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">add eax,0x1</span><br></pre></td></tr></table></figure>
 <p>执行汇编代码以后:</p>
 <p><img src="/2018/12/02/标志寄存器/8.jpg" alt="eax为0x00001000，AF位为1"></p>
-<p>F加1等于0，进一位。所以0x00000FFF + 1 = 0x00001000，第16位从之前的0变成了1，产生了进位，所以AF位的值就变成了1。</p>
+<p>F加1等于0，进一位。所以0x00000FFF + 1 = 0x00001000，第4位从之前的0变成了1，产生了进位，所以AF位的值就变成了1。</p>
 <p>16位的情况下也是同理，先把一个立即数0xBBAF放到16位寄存器ax里面，并且把所有标志位重置为0，便于观察:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mov ax,0xBBAF</span><br></pre></td></tr></table></figure>
 <p><img src="/2018/12/02/标志寄存器/9.jpg" alt="ax为0xBBAF，AF位为0"></p>
-<p>现在16位寄存器ax里面的值是0xBB<font style="color:red">A</font>F，我标红那个A就是第8位，如果运算结果中第8位产生进位或借位，AF位就会变成1。给ax加1:</p>
+<p>现在16位寄存器ax里面的值是0xBB<font style="color:red">A</font>F，我标红那个A就是第2个十六进制位，如果运算结果中第2个十六进制位产生进位或借位，AF标志位就会变成1。给ax加1:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">add ax,1</span><br></pre></td></tr></table></figure>
 <p>执行汇编代码以后:</p>
 <p><img src="/2018/12/02/标志寄存器/10.jpg" alt="ax位0xBBB0，AF位为1"></p>
-<p>F加1等于0，进一位。F加1进了一位，那么A加1等于B，所以0xBBAF + 0x1 = 0xBBB0。在运算中，第8位的A出现了进位，所以AF位的值变成了1。</p>
-<p>在8位的情况下也是同理，就不用试了。</p>
+<p>F加1等于0，进一位。F加1进了一位，那么A加1等于B，所以0xBBAF + 0x1 = 0xBBB0。在运算中，第2个十六进制位的A出现了进位，所以AF位的值变成了1。</p>
+<p>在8位的情况下也是同理。</p>
 </div><div class="tags"></div><div class="post-nav"><a class="next" href="/2018/12/01/pushad与popad/">pushad与popad</a></div><div id="container"></div><link rel="stylesheet" href="/css/default.css?v=0.0.0"><script src="/js/gitment.browser.js?v=0.0.0"></script><script>var gitment = new Gitment({
   owner: 'Scorcsoft',
   repo: 'scorcsoft.github.io',
