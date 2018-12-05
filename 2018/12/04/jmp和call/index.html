@@ -12,9 +12,18 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">call 40106c</span><br></pre></td></tr></table></figure>
 <p><img src="/2018/12/04/jmp和call/2.jpg" alt=""></p>
 <p>目的地址是40106c，执行这一行指令以后，call指令就把目的地址储存到EIP寄存器。call指令地址是401040，call指令地址的下一个地址(返回地址)是401045，再看堆栈里面，已经把返回地址401045压入堆栈了。</p>
+<font color="#ff0000">call指令自身的地址加上call指令的长度就是返回地址。</font>
+
+
+
 <p>由于call指令会压栈，所以call指令会影响esp寄存器。</p>
-<h2 id="0x03-ret指令"><a href="#0x03-ret指令" class="headerlink" title="0x03 ret指令"></a>0x03 ret指令</h2><p>ret指令和call指令是成对出现的，如果只有call，没有ret，程序就乱了。ret指令同样会修改eip寄存器，ret指令是把call指令压入堆栈中的返回地址弹出到eip寄存器，让程序能继续执行下去。</p>
+<h2 id="0x03-ret指令"><a href="#0x03-ret指令" class="headerlink" title="0x03 ret指令"></a>0x03 ret指令</h2><p>ret指令和call指令是成对出现的，ret指令同样会修改eip寄存器，ret指令是把call指令压入堆栈中的返回地址弹出到eip寄存器，让程序能继续执行下去。</p>
 <p>所以ret指令相当于pop eip。</p>
+<font color="#ff0000">当一个函数调用完了，堆栈应该恢复到函数调用之前的状态，称之为堆栈平衡。</font>
+
+
+
+<p>ret指令就是为了实现堆栈平衡。</p>
 </div><div class="tags"></div><div class="post-nav"><a class="next" href="/2018/12/02/标志寄存器/">标志寄存器</a></div><div id="container"></div><link rel="stylesheet" href="/css/default.css?v=0.0.0"><script src="/js/gitment.browser.js?v=0.0.0"></script><script>var gitment = new Gitment({
   owner: 'Scorcsoft',
   repo: 'scorcsoft.github.io',
