@@ -8,19 +8,19 @@
   <link rel="dns-prefetch" href="https://scorcsfot.com">
   <title>图形验证码导致的拒绝服务 | 天蝎软件 | scorcsoft</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="0x01 背景啊….作为一个季更博主，苦逼的我又跑回来写博客了😑😑😑。图形验证码导致的拒绝服务，这个确实挺少见的在我的职业生涯中这才第二次遇到，这是在PICC做渗透的时候遇到的。 0x02 拒绝服务拒绝服务就是耗尽服务器资源，使服务器无法提供访问的攻击，带宽资源、服务器CPU、内存、数据库服务器的CPU等等，都是拒绝服务可以攻击的点。 在PICC某系统登录的地方有个图形验证码，我也没太注意直">
+  <meta name="description" content="0x01 背景啊….作为一个季更博主，苦逼的我又跑回来写博客了😑😑😑。图形验证码导致的拒绝服务，这个确实挺少见的在我的职业生涯中这才第二次遇到，这是在PICC做渗透的时候遇到的。 0x02 拒绝服务拒绝服务就是耗尽服务器资源，使服务器无法提供服务的攻击，带宽资源、服务器CPU、内存、数据库服务器的CPU等等，都是拒绝服务可以攻击的点。 在PICC某系统登录的地方有个图形验证码，我也没太注意">
 <meta property="og:type" content="article">
 <meta property="og:title" content="图形验证码导致的拒绝服务">
 <meta property="og:url" content="https://scorcsfot.com/2019/02/25/图形验证码导致的拒绝服务/index.html">
 <meta property="og:site_name" content="天蝎软件 | scorcsoft">
-<meta property="og:description" content="0x01 背景啊….作为一个季更博主，苦逼的我又跑回来写博客了😑😑😑。图形验证码导致的拒绝服务，这个确实挺少见的在我的职业生涯中这才第二次遇到，这是在PICC做渗透的时候遇到的。 0x02 拒绝服务拒绝服务就是耗尽服务器资源，使服务器无法提供访问的攻击，带宽资源、服务器CPU、内存、数据库服务器的CPU等等，都是拒绝服务可以攻击的点。 在PICC某系统登录的地方有个图形验证码，我也没太注意直">
+<meta property="og:description" content="0x01 背景啊….作为一个季更博主，苦逼的我又跑回来写博客了😑😑😑。图形验证码导致的拒绝服务，这个确实挺少见的在我的职业生涯中这才第二次遇到，这是在PICC做渗透的时候遇到的。 0x02 拒绝服务拒绝服务就是耗尽服务器资源，使服务器无法提供服务的攻击，带宽资源、服务器CPU、内存、数据库服务器的CPU等等，都是拒绝服务可以攻击的点。 在PICC某系统登录的地方有个图形验证码，我也没太注意">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://scorcsfot.com/2019/02/25/图形验证码导致的拒绝服务/1.jpg">
 <meta property="og:image" content="https://scorcsfot.com/2019/02/25/图形验证码导致的拒绝服务/2.jpg">
-<meta property="og:updated_time" content="2019-02-25T01:57:05.890Z">
+<meta property="og:updated_time" content="2019-02-25T05:08:48.745Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="图形验证码导致的拒绝服务">
-<meta name="twitter:description" content="0x01 背景啊….作为一个季更博主，苦逼的我又跑回来写博客了😑😑😑。图形验证码导致的拒绝服务，这个确实挺少见的在我的职业生涯中这才第二次遇到，这是在PICC做渗透的时候遇到的。 0x02 拒绝服务拒绝服务就是耗尽服务器资源，使服务器无法提供访问的攻击，带宽资源、服务器CPU、内存、数据库服务器的CPU等等，都是拒绝服务可以攻击的点。 在PICC某系统登录的地方有个图形验证码，我也没太注意直">
+<meta name="twitter:description" content="0x01 背景啊….作为一个季更博主，苦逼的我又跑回来写博客了😑😑😑。图形验证码导致的拒绝服务，这个确实挺少见的在我的职业生涯中这才第二次遇到，这是在PICC做渗透的时候遇到的。 0x02 拒绝服务拒绝服务就是耗尽服务器资源，使服务器无法提供服务的攻击，带宽资源、服务器CPU、内存、数据库服务器的CPU等等，都是拒绝服务可以攻击的点。 在PICC某系统登录的地方有个图形验证码，我也没太注意">
 <meta name="twitter:image" content="https://scorcsfot.com/2019/02/25/图形验证码导致的拒绝服务/1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="天蝎软件 | scorcsoft" type="application/atom+xml">
@@ -177,8 +177,9 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="0x01-背景"><a href="#0x01-背景" class="headerlink" title="0x01 背景"></a>0x01 背景</h2><p>啊….作为一个季更博主，苦逼的我又跑回来写博客了😑😑😑。图形验证码导致的拒绝服务，这个确实挺少见的在我的职业生涯中这才第二次遇到，这是在PICC做渗透的时候遇到的。</p>
-<h2 id="0x02-拒绝服务"><a href="#0x02-拒绝服务" class="headerlink" title="0x02 拒绝服务"></a>0x02 拒绝服务</h2><p>拒绝服务就是耗尽服务器资源，使服务器无法提供访问的攻击，带宽资源、服务器CPU、内存、数据库服务器的CPU等等，都是拒绝服务可以攻击的点。</p>
+        <a id="more"></a>
+<h2 id="0x01-背景"><a href="#0x01-背景" class="headerlink" title="0x01 背景"></a>0x01 背景</h2><p>啊….作为一个季更博主，苦逼的我又跑回来写博客了😑😑😑。图形验证码导致的拒绝服务，这个确实挺少见的在我的职业生涯中这才第二次遇到，这是在PICC做渗透的时候遇到的。</p>
+<h2 id="0x02-拒绝服务"><a href="#0x02-拒绝服务" class="headerlink" title="0x02 拒绝服务"></a>0x02 拒绝服务</h2><p>拒绝服务就是耗尽服务器资源，使服务器无法提供服务的攻击，带宽资源、服务器CPU、内存、数据库服务器的CPU等等，都是拒绝服务可以攻击的点。</p>
 <p>在PICC某系统登录的地方有个图形验证码，我也没太注意直接就开始整验证码逻辑了，一顿操作下来发现验证码并没有验证码绕过啦、重复利用啦这些常规的逻辑问题，但是我发现，哎~~~</p>
 <p><img src="/2019/02/25/图形验证码导致的拒绝服务/1.jpg" alt=""></p>
 <p>看见没，这个图形验证码的URL居然有三个参数啊，一个叫w，一个叫h，一个叫t。</p>
