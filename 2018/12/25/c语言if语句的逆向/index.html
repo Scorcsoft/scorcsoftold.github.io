@@ -8,21 +8,21 @@
   <link rel="dns-prefetch" href="https://scorcsfot.com">
   <title>c语言if语句的逆向 | 天蝎软件 | scorcsoft</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="0x01 内存图程序在运行时是加载到内存里面执行的(内存指的是内存条，也就是程序运行时它就被从硬盘里复制了一份到内存条里)。在一块内存中分为5个区：  栈(stack)在中文里叫做”堆栈”，而堆(heap)就叫”堆”。这个我不明白是为什么。 0x02 全局变量全局变量的地址在编译的时候就已经确定了。 全局变量可以被所有的函数读写。 全局变量会一直占用内存，直到整个线程结束。 全局变量在汇编里的特征">
+  <meta name="description" content="0x01 内存图程序在运行时是加载到内存里面执行的(内存指的是内存条，也就是程序运行时它就被从硬盘里复制了一份到内存条里)。在一块内存中分为5个区：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="c语言if语句的逆向">
 <meta property="og:url" content="https://scorcsfot.com/2018/12/25/c语言if语句的逆向/index.html">
 <meta property="og:site_name" content="天蝎软件 | scorcsoft">
-<meta property="og:description" content="0x01 内存图程序在运行时是加载到内存里面执行的(内存指的是内存条，也就是程序运行时它就被从硬盘里复制了一份到内存条里)。在一块内存中分为5个区：  栈(stack)在中文里叫做”堆栈”，而堆(heap)就叫”堆”。这个我不明白是为什么。 0x02 全局变量全局变量的地址在编译的时候就已经确定了。 全局变量可以被所有的函数读写。 全局变量会一直占用内存，直到整个线程结束。 全局变量在汇编里的特征">
+<meta property="og:description" content="0x01 内存图程序在运行时是加载到内存里面执行的(内存指的是内存条，也就是程序运行时它就被从硬盘里复制了一份到内存条里)。在一块内存中分为5个区：">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://scorcsfot.com/2018/12/25/c语言if语句的逆向/1.jpg">
 <meta property="og:image" content="https://scorcsfot.com/2018/12/25/c语言if语句的逆向/2.jpg">
 <meta property="og:image" content="https://scorcsfot.com/2018/12/25/c语言if语句的逆向/3.jpg">
 <meta property="og:image" content="https://scorcsfot.com/2018/12/25/c语言if语句的逆向/5.jpg">
-<meta property="og:updated_time" content="2018-12-26T04:50:41.506Z">
+<meta property="og:updated_time" content="2019-02-25T05:11:46.390Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="c语言if语句的逆向">
-<meta name="twitter:description" content="0x01 内存图程序在运行时是加载到内存里面执行的(内存指的是内存条，也就是程序运行时它就被从硬盘里复制了一份到内存条里)。在一块内存中分为5个区：  栈(stack)在中文里叫做”堆栈”，而堆(heap)就叫”堆”。这个我不明白是为什么。 0x02 全局变量全局变量的地址在编译的时候就已经确定了。 全局变量可以被所有的函数读写。 全局变量会一直占用内存，直到整个线程结束。 全局变量在汇编里的特征">
+<meta name="twitter:description" content="0x01 内存图程序在运行时是加载到内存里面执行的(内存指的是内存条，也就是程序运行时它就被从硬盘里复制了一份到内存条里)。在一块内存中分为5个区：">
 <meta name="twitter:image" content="https://scorcsfot.com/2018/12/25/c语言if语句的逆向/1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="天蝎软件 | scorcsoft" type="application/atom+xml">
@@ -55,7 +55,7 @@
 			<img src="/avatar.png" class="js-avatar">
 		</a>
 		<hgroup>
-		  <h1 class="header-author"><a href="/">堆栈指针</a></h1>
+		  <h1 class="header-author"><a href="/">空指针</a></h1>
 		</hgroup>
 		
 
@@ -113,7 +113,7 @@
 				<img src="/avatar.png" class="js-avatar">
 			</div>
 			<hgroup>
-			  <h1 class="header-author js-header-author">堆栈指针</h1>
+			  <h1 class="header-author js-header-author">空指针</h1>
 			</hgroup>
 			
 			
@@ -180,6 +180,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="0x01-内存图"><a href="#0x01-内存图" class="headerlink" title="0x01 内存图"></a>0x01 内存图</h2><p>程序在运行时是加载到内存里面执行的(内存指的是内存条，也就是程序运行时它就被从硬盘里复制了一份到内存条里)。在一块内存中分为5个区：</p>
+<a id="more"></a>
 <p><img src="/2018/12/25/c语言if语句的逆向/1.jpg" alt=""></p>
 <p>栈(stack)在中文里叫做”堆栈”，而堆(heap)就叫”堆”。这个我不明白是为什么。</p>
 <h2 id="0x02-全局变量"><a href="#0x02-全局变量" class="headerlink" title="0x02 全局变量"></a>0x02 全局变量</h2><p>全局变量的地址在编译的时候就已经确定了。</p>
@@ -388,7 +389,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2019 堆栈指针
+    		&copy; 2019 空指针
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten

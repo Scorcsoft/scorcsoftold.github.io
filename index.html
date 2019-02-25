@@ -46,7 +46,7 @@
 			<img src="/avatar.png" class="js-avatar">
 		</a>
 		<hgroup>
-		  <h1 class="header-author"><a href="/">堆栈指针</a></h1>
+		  <h1 class="header-author"><a href="/">空指针</a></h1>
 		</hgroup>
 		
 
@@ -104,7 +104,7 @@
 				<img src="/avatar.png" class="js-avatar">
 			</div>
 			<hgroup>
-			  <h1 class="header-author js-header-author">堆栈指针</h1>
+			  <h1 class="header-author js-header-author">空指针</h1>
 			</hgroup>
 			
 			
@@ -172,18 +172,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <a id="more"></a>
-<h2 id="0x01-背景"><a href="#0x01-背景" class="headerlink" title="0x01 背景"></a>0x01 背景</h2><p>啊….作为一个季更博主，苦逼的我又跑回来写博客了😑😑😑。图形验证码导致的拒绝服务，这个确实挺少见的在我的职业生涯中这才第二次遇到，这是在PICC做渗透的时候遇到的。</p>
-<h2 id="0x02-拒绝服务"><a href="#0x02-拒绝服务" class="headerlink" title="0x02 拒绝服务"></a>0x02 拒绝服务</h2><p>拒绝服务就是耗尽服务器资源，使服务器无法提供服务的攻击，带宽资源、服务器CPU、内存、数据库服务器的CPU等等，都是拒绝服务可以攻击的点。</p>
-<p>在PICC某系统登录的地方有个图形验证码，我也没太注意直接就开始整验证码逻辑了，一顿操作下来发现验证码并没有验证码绕过啦、重复利用啦这些常规的逻辑问题，但是我发现，哎~~~</p>
-<p><img src="/2019/02/25/图形验证码导致的拒绝服务/1.jpg" alt=""></p>
-<p>看见没，这个图形验证码的URL居然有三个参数啊，一个叫w，一个叫h，一个叫t。</p>
-<p>参数t明显的时间戳啦，没什么卵用。在前端开发中，像验证码这类的东西一般都会加上时间戳啊或者随机数这样的东西，为什么呢，这是为了能及时刷新验证码图片，在某些🌶🐔浏览器里(比如Internet Explorer啦)，如果图片的url是一样的，那它可能就不会真正的去加载图片，它会调用缓存的，调缓存就会导致多次请求验证码图片，但是图片却没变，还是原来的。加上时间戳以后每次的url就不一样了，这样就可以防止缓存，实现验证码及时刷新。</p>
-<p>w参数和h参数当时就觉得w应该是width，h应该是height，也就是这两个参数是控制图片的宽度和高度的。它默认的大小是150 × 30，然后我改成300 × 60，果然验证码图片就变大了，这不就是验证码图片大小可控了嘛。然后我再改成1500 × 30，就耗时十多秒才完成。</p>
-<p><img src="/2019/02/25/图形验证码导致的拒绝服务/2.jpg" alt=""></p>
-<p>如果把参数改的再大一点，然后线程高一点多线程同时请求，即可导致拒绝服务。</p>
-<h2 id="0x03-修复方案"><a href="#0x03-修复方案" class="headerlink" title="0x03 修复方案"></a>0x03 修复方案</h2><p>这要什么修复方案，培训班儿出来的吧，哪有验证码图片大小是前端可控的，验证码图片大小在后端写死啊。。。某国企这些程序员那是真的菜🤣🤣🤣🤣，妈的代码还没老子写的好，回去再上三个月培训班吧。我们安全审计处某主管说的”他们(指那些开发)完成自己的工作都还有些困难，让他们把安全考虑进去，那，不可能”。当时我就😂😂😂😂😂😂了</p>
-
+        <h2 id="0x01-背景"><a href="#0x01-背景" class="headerlink" title="0x01 背景"></a>0x01 背景</h2><p>啊….作为一个季更博主，苦逼的我又跑回来写博客了😑😑😑。图形验证码导致的拒绝服务，这个确实挺少见的在我的职业生涯中这才第二次遇到，这是在PICC做渗透的时候遇到的。</p>
+        
+          <a class="article-more-a" href="/2019/02/25/图形验证码导致的拒绝服务/#more">more >></a>
+        
       
 
       
@@ -362,58 +354,9 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="0x01-内存图"><a href="#0x01-内存图" class="headerlink" title="0x01 内存图"></a>0x01 内存图</h2><p>程序在运行时是加载到内存里面执行的(内存指的是内存条，也就是程序运行时它就被从硬盘里复制了一份到内存条里)。在一块内存中分为5个区：</p>
-<p><img src="/2018/12/25/c语言if语句的逆向/1.jpg" alt=""></p>
-<p>栈(stack)在中文里叫做”堆栈”，而堆(heap)就叫”堆”。这个我不明白是为什么。</p>
-<h2 id="0x02-全局变量"><a href="#0x02-全局变量" class="headerlink" title="0x02 全局变量"></a>0x02 全局变量</h2><p>全局变量的地址在编译的时候就已经确定了。</p>
-<p>全局变量可以被所有的函数读写。</p>
-<p>全局变量会一直占用内存，直到整个线程结束。</p>
-<p>全局变量在汇编里的特征是: 在读写全局变量时，地址是一个固定的十六进制值，例如:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MOV EAX,DWORD PTR DS:[0x11111111]</span><br></pre></td></tr></table></figure>
-<h2 id="0x03-局部变量"><a href="#0x03-局部变量" class="headerlink" title="0x03 局部变量"></a>0x03 局部变量</h2><p>局部变量没有固定的地址</p>
-<p>局部变量只有被创建(局部变量所在的函数被调用)时才会分配内存</p>
-<p>局部变量储存在堆栈里面</p>
-<p>局部变量所在的函数运行完毕后就被丢弃了，虽然局部变量所储存的值仍然存放在堆栈里，但是它已经是一个垃圾值了。下一次调用其它函数时可能会被覆盖掉。</p>
-<p>局部变量的特征是: 在读写局部变量时，地址是通过栈底指针或栈顶指针加减偏移量来找到地址的，例如:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MOV EAX,DWORD PTR DS:[EBP-4]</span><br></pre></td></tr></table></figure>
-<h2 id="0x04-参数个数"><a href="#0x04-参数个数" class="headerlink" title="0x04 参数个数"></a>0x04 参数个数</h2><p>函数调用的第一步就是参数压栈，所以在判断函数的参数个数的时候，第一步先看在函数调用时有多少个push，然后再通过堆栈平衡的代码来验证。</p>
-<p>如果是外平栈，就看平衡堆栈时把堆栈指针回退了几个单位。</p>
-<p>如果是内平栈，就看平衡堆栈时RET的值是多少。</p>
-<p>在windows中堆栈的地址顺序是从大到小的，所以堆栈指针回退就应该是地址变大(加)，提升就应该是地址变小(减)。</p>
-<p>通过这两个步骤在一般情况下就可以知道函数有几个参数了。假如有两个push，平衡堆栈的代码也正好是add esp,0x8，那么参数的个数就应该是两个。假如有3个push，平衡堆栈的代码是add esp,0xC，那么参数的个数就应该是3个。</p>
-<h2 id="0x05-if语句"><a href="#0x05-if语句" class="headerlink" title="0x05 if语句"></a>0x05 if语句</h2><p>如果有几行影响标志寄存器的指令，然后下面紧接着就是一个JCC指令，那这就很可能是一个if语句。</p>
-<p>这是一个c语言的if语句的正向代码:</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">int</span> MAX = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fun</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (a &gt; b)&#123;</span><br><span class="line">        MAX = a;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    fun(<span class="number">5</span>,<span class="number">3</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>定义了一个函数fun，有两个int类型的形参a和b。然后函数里面有一个判断，如果参数a大于参数b，那么就把a的值赋给全局变量MAX。</p>
-<p>在VC6里编译运行，然后右键查看它的汇编代码，调用fun函数的汇编代码:</p>
-<p><img src="/2018/12/25/c语言if语句的逆向/2.jpg" alt=""></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">00401078   push        3</span><br><span class="line">0040107A   push        5</span><br><span class="line">0040107C   call        @ILT+0(_fun) (00401005)</span><br><span class="line">00401081   add         esp,8</span><br></pre></td></tr></table></figure>
-<p>首先就是两个push，把fun()函数的两个参数压栈，然后就是call指令开始调用函数。call指令下面的add指令是为了实现堆栈平衡，上面有2个push，平衡堆栈的指令正好是把堆栈指针回退8个字节(2个单位)，由此可以知道fun()函数的参数个数是2个。</p>
-<p>在call指令那里f11单步步入，进入fun()函数:</p>
-<p><img src="/2018/12/25/c语言if语句的逆向/3.jpg" alt=""></p>
-<p>首先是堆栈操作(0x401020到0x401036)，提升堆栈，填充缓冲区。对堆栈的操作是在堆栈图的时候学习的，就不用多说了。</p>
-<p>再下面就是if语句了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">00401038   mov         eax,dword ptr [ebp+8]</span><br><span class="line">0040103B   cmp         eax,dword ptr [ebp+0Ch]</span><br><span class="line">0040103E   jle         fun+29h (00401049)</span><br></pre></td></tr></table></figure>
-<p>首先是MOV指令把ebp+0x8的地址里的值放到eax寄存器，然后cmp指令把 ebp+0xC的地址的值 与 eax 的值进行比较，紧接着就是一个JCC指令。cmp指令会影响标志寄存器，而JCC指令就是根据标志寄存器来决定是否跳转的。</p>
-<p>c语言的if语句和汇编里的jcc指令的逻辑是完全相反的，例如c语言里if判断的是大于，那么在汇编里jcc指令就是jle，jle的意思是小于等于则跳转。为什么逻辑是完全相反的其实这个很好理解，因为正向代码里if的条件如果成立，就会执行if下面的代码。</p>
-<p>cmp指令是判断if条件是否成立，而jcc指令是判断是否执行if下的代码。</p>
-<p>if判断的是大于，那么jcc指令就是jle，小于等于时跳转，如果if条件的大于是成立的，那么jle指令就不会跳转，汇编执行jle执行下面的那一行代码(在正向代码就相当于if成立，就执行if括号里的代码块)。如果if条件的大于是不成立的，只要大于不成立，那么小于或等于就必定是成立的，那么jle就会跳转，jle就跳走啦，跳去执行其他地方的代码了(在正向代码里就相当于if条件不成立，那么if下面的代码就不能执行了，转去执行if的花括号之外的代码了)。就像在这个例子里，它jle跳到0x401049了，0x401049的代码就是if的花括号之外的代码，是xor eax,eax;把eax清零了。也就是c语言的return 0;这一行代码</p>
-<p>在正向代码里，如果a大于b，就把a的值赋给全局变量MAX，来看汇编里是怎样实现的:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">00401040   mov         ecx,dword ptr [ebp+8]</span><br><span class="line">00401043   mov         dword ptr [_MAX (00427c50)],ecx</span><br></pre></td></tr></table></figure>
-<p>首先把ebp+8的地址的值放到ecx寄存器，然后把ecx寄存器的值放到0x427c50。上面也说了全局变量的主要特征之一就是它的地址是固定的一个十六进制值。</p>
-<h2 id="0x06-ebp-和ebp"><a href="#0x06-ebp-和ebp" class="headerlink" title="0x06 ebp+和ebp-"></a>0x06 ebp+和ebp-</h2><p>ebp+是参数，ebp-是局部变量。</p>
-<p><img src="/2018/12/25/c语言if语句的逆向/5.jpg" alt=""></p>
-<p>在调用函数的时候，第一步就是把参数压入堆栈，c语言是从右到左的顺序，所以fun(5,3);的压栈顺序是push 3然后push 5;。</p>
-<p>参数入栈以后就执行call指令，call执行调用函数时会把返回地址压入堆栈，现在堆栈里就有3个数据了，这三个数据从栈顶到栈底的顺序分别是函数返回地址、函数左边第一个参数、函数左边第二个参数。</p>
-<p>call指令返回地址入栈以后就真正进入被调用的函数里面了，进入函数以后就开始堆栈操作，第一行就是push ebp，把当前栈底地址压入堆栈。然后mov ebp,esp，把当前栈顶地址作为栈底地址完成堆栈提升。</p>
-<p>push ebp后，堆栈里就有4个数据了，从栈顶到栈底的顺序分别是函数调用前的栈底地址、函数返回地址、函数左边第一个参数、函数左边第二个参数。</p>
-<p>然后mov ebp,esp把栈顶作为栈底，在windows中，堆栈地址是按照从大到小的顺序，那么ebp + 4就是栈底往后退4个字节，就是函数返回地址，ebp + 8就是最后一个压入堆栈的参数(左边第一个)，ebp + c就是倒数第二个压入堆栈的参数(左边第二个)。</p>
-<p>所以ebp+偏移就是传入函数的参数了，ebp+0x4是函数调用前的栈底地址。</p>
-<p>ebp+0x8就是最后一个压入堆栈的参数，也就是函数左边第一个参数</p>
-<p>ebp+0xC就是倒数第二个压入堆栈的参数，也就是函数左边第二个参数</p>
-<p>ebp+0x10就是倒数第三个压入堆栈的参数，也就是函数左边第三个参数</p>
-<p>ebp+0x14就是倒数第四个压入堆栈的参数，也就函数左边第四个参数</p>
-<p>以此类推，这个很好理解。</p>
-
+        
+          <a class="article-more-a" href="/2018/12/25/c语言if语句的逆向/#more">more >></a>
+        
       
 
       
@@ -476,34 +419,9 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="0x01-jmp指令"><a href="#0x01-jmp指令" class="headerlink" title="0x01 jmp指令"></a>0x01 jmp指令</h2><p>在CPU中有一个32位的寄存器EIP，EIP寄存器里面储存的是CPU要执行的下一条指令的地址。</p>
-<p>JMP是汇编里面的无条件跳转指令，JMP指令的作用就是修改EIP寄存器。</p>
-<p>虽然JMP是jump 跳的缩写，但是JMP和跳没有任何关系，JMP唯一的作用就是修改EIP寄存器。它实现跳转的方式就是通过修改EIP寄存器来实现的。汇编里面不允许使用mov指令修改EIP寄存器，假如可以用mov指令修改EIP寄存器，那么</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mov eip,地址</span><br><span class="line">jmp 地址</span><br></pre></td></tr></table></figure>
-<p>这两条指令最终实现的效果就是一样的。</p>
-<p>jmp指令不影响堆栈，不修改其它寄存器，jmp指令唯一更改的就是eip寄存器。</p>
-<h2 id="0x02-call指令"><a href="#0x02-call指令" class="headerlink" title="0x02 call指令"></a>0x02 call指令</h2><p>call指令的作用也是修改EIP寄存器，但是call指令不仅会修改EIP寄存器。</p>
-<p><br></p>
-<p>call指令会把EIP寄存器的值修改为目标地址，然后，把call指令地址的下一个地址压入堆栈，”call指令地址的下一个地址”称之为返回地址。</p>
-<p>例如，当前的堆栈和寄存器是这样的:</p>
-<p><img src="/2018/12/04/jmp和call/1.jpg" alt=""></p>
-<p>执行这一行指令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">call 40106c</span><br></pre></td></tr></table></figure>
-<p><img src="/2018/12/04/jmp和call/2.jpg" alt=""></p>
-<p>目的地址是40106c，执行这一行指令以后，call指令就把目的地址储存到EIP寄存器。call指令地址是401040，call指令地址的下一个地址(返回地址)是401045，再看堆栈里面，已经把返回地址401045压入堆栈了。</p>
-<p><br></p>
-<font color="#ff0000">call指令自身的地址加上call指令的长度就是返回地址。</font>
-
-<p><br></p>
-<p>由于call指令会压栈，所以call指令会影响esp寄存器。</p>
-<h2 id="0x03-ret指令"><a href="#0x03-ret指令" class="headerlink" title="0x03 ret指令"></a>0x03 ret指令</h2><p>ret指令和call指令是成对出现的，ret指令同样会修改eip寄存器，ret指令是把call指令压入堆栈中的返回地址弹出到eip寄存器，让程序能继续执行下去。</p>
-<p><br></p>
-<p>所以ret指令相当于pop eip。</p>
-<p><br></p>
-<font color="#ff0000">当一个函数调用完了，堆栈应该恢复到函数调用之前的状态，称之为堆栈平衡。</font>
-
-<p><br></p>
-<p>ret指令就是为了实现堆栈平衡。</p>
-
+        
+          <a class="article-more-a" href="/2018/12/04/jmp和call/#more">more >></a>
+        
       
 
       
@@ -761,25 +679,9 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="0x00"><a href="#0x00" class="headerlink" title="0x00"></a>0x00</h2><p>博主在学逆向，有空的话把一些知识点记下来。</p>
-<p>今天看到一个问题: 2 + 3 = ? </p>
-<p>人类算的是十进制的2加上十进制的3等于十进制的5，而计算机里没有23456789，它只有高电平和低电平。</p>
-<h2 id="0x01"><a href="#0x01" class="headerlink" title="0x01"></a>0x01</h2><p>十进制的2在计算机里的表现形式是: 0010</p>
-<p>十进制的3在计算机里的表现形式是: 0011</p>
-<p>计算机在计算时它会对这两个数进行按位异或运算:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">        0010</span><br><span class="line">xor     0011</span><br><span class="line">------------</span><br><span class="line">        0001</span><br></pre></td></tr></table></figure>
-<p>0010和0011按位异或的结果就是0001。</p>
-<p>异或完了之后，计算机会再进行按位与运算，并且将运算的结果左移一位，然后进行判断:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">        0010</span><br><span class="line">and     0011</span><br><span class="line">------------</span><br><span class="line">        0010 &lt;&lt; 1 = 0100</span><br></pre></td></tr></table></figure>
-<p>本次按位与运算的运算结果是0010，将0010左移一位的结果是0100，假如左移后结果等于0000，那么说明上一次按位异或运算的结果0001就是最终结果。如果不等于0000，那么说明上一次按位异或的结果不是最终结果，就会再进行按位异或运算。</p>
-<p>本次按位异或运算中，就是上一次按位异或运算的结果0001和上一次按位与运算并将结果左移一位后的结果0100来进行按位异或运算</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">        0001</span><br><span class="line">xor     0100</span><br><span class="line">------------</span><br><span class="line">        0101</span><br></pre></td></tr></table></figure>
-<p>本次按位异或运算的结果就是0101。</p>
-<p>异或运算结束后，再进行一次按位与运算。本次的按位与运算就是也是上一次按位异或运算的结果0001和上一次按位与运算的结果0100来进行按位与运算了，并且将运算结果左移一位:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">        0001</span><br><span class="line">and     0101</span><br><span class="line">------------</span><br><span class="line">        0000 &lt;&lt; 1 = 0000</span><br></pre></td></tr></table></figure>
-<p>本次按位与运算并将结果左移一位后等于0000了，那么说明上一次异或运算的结果0101就是0010 + 0011的最终结果。</p>
-<p>二进制0101的十进制嘞，就是5，所以2 + 3的结果计算机就是这么算出来的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2 + 3 = 5 &lt;==&gt; 0010 + 0011 = 0101</span><br></pre></td></tr></table></figure>
-
+        
+          <a class="article-more-a" href="/2018/11/26/2-3/#more">more >></a>
+        
       
 
       
@@ -896,7 +798,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2019 堆栈指针
+    		&copy; 2019 空指针
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
